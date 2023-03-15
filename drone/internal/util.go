@@ -90,12 +90,16 @@ func NewAutoscaleClient(c *cli.Context) (drone.Client, error) {
 // ParseRepo parses the repository owner and name from a string.
 func ParseRepo(str string) (user, repo string, err error) {
 	var parts = strings.Split(str, "/")
-	if len(parts) != 2 {
+	if len(parts) < 2 {
 		err = fmt.Errorf("Error: Invalid or missing repository. eg octocat/hello-world.")
 		return
 	}
-	user = parts[0]
-	repo = parts[1]
+	//user = parts[0]
+	//repo = parts[1]
+    repo = parts[len(parts)-1]
+    if len(parts) > 1 {
+        user = strings.Join(parts[:len(parts)-1], "/")
+    }
 	return
 }
 
